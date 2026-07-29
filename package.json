@@ -1,5 +1,5 @@
 {
-  "name": "GDShader LSP Client",
+  "name": "gdshader-lsp-client",
   "displayName": "GDShader LSP Client",
   "description": "GDShader Language Server support for VS Code",
   "version": "1.0.0",
