@@ -43,7 +43,7 @@ export function activate(context: ExtensionContext) {
   let command = workspace.getConfiguration('gdshaderLsp').get<string>('path');
 
   // 2. If no custom path is set, use the bundled binary for this OS/arch
-  if (!command || command === 'gdshader-lsp') {
+  if (!command || command === 'gdshader_lsp') {
     command = getBundledBinaryPath(context);
   }
 
