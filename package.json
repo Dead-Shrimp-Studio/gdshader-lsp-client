@@ -1,8 +1,8 @@
 {
-  "name": "gdshader-lsp-client",
-  "displayName": "gdshader-lsp-client",
+  "name": "GDShader LSP Client",
+  "displayName": "GDShader LSP Client",
   "description": "GDShader Language Server support for VS Code",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "repository": {
     "type": "git",
     "url": "https://github.com/scump1/gdshader-lsp-client.git"

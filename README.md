@@ -2,7 +2,7 @@
 
 A Visual Studio Code extension that provides rich Language Server Protocol (LSP) support for Godot Engine's **GDShader** (`.gdshader`) files. 
 
-This extension integrates the [`gdshader-lsp`](https://github.com/your-repo/gdshader-lsp) (v2.5.1) binary directly into VS Code, giving you features like autocompletion, diagnostics, hover information, and syntax analysis for GDShader scripts.
+This extension integrates the [`gdshader-lsp`](https://github.com/scump1/gdshader-lsp-cpp.git) (v2.5.2) binary directly into VS Code, giving you features like autocompletion, diagnostics, hover information, and syntax analysis for GDShader scripts.
 
 ---
 
