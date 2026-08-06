@@ -4,14 +4,17 @@ import {
   workspace,
   ExtensionContext,
   window,
-  OutputChannel,
+  LogOutputChannel,
   ConfigurationChangeEvent
 } from 'vscode';
 import {
   LanguageClient,
   LanguageClientOptions,
   ServerOptions,
-  Executable
+  Executable,
+  ErrorAction,
+  CloseAction,
+  State
 } from 'vscode-languageclient/node';
 
 const CONFIG_SECTION = 'gdshaderLsp';
@@ -21,7 +24,7 @@ const CLIENT_NAME = 'GDShader Language Server';
 const OUTPUT_CHANNEL_NAME = 'GDShader LSP';
 
 let client: LanguageClient | undefined;
-let outputChannel: OutputChannel | undefined;
+let outputChannel: LogOutputChannel | undefined;
 
 /**
  * Resolve the bundled binary path for a given platform and architecture.
@@ -84,7 +87,20 @@ async function startClient(executablePath: string): Promise<void> {
       { scheme: 'untitled', language: 'gdshader' }
     ],
     outputChannel,
-    traceOutputChannel: outputChannel
+    traceOutputChannel: outputChannel,
+    errorHandler: {
+      error: (error: Error) => {
+        const message =
+          error.message || 'Unknown error while running the GDShader language server.';
+        outputChannel?.appendLine(`[error] ${message}`);
+        window.showErrorMessage(`GDShader LSP: ${message}`);
+        return { action: ErrorAction.Continue };
+      },
+      closed: () => {
+        outputChannel?.appendLine('[exit] Language server connection was closed.');
+        return { action: CloseAction.DoNotRestart };
+      }
+    }
   };
 
   const newClient = new LanguageClient(
@@ -94,18 +110,10 @@ async function startClient(executablePath: string): Promise<void> {
     clientOptions
   );
 
-  newClient.onError((error) => {
-    const message =
-      error.message || 'Unknown error while running the GDShader language server.';
-    outputChannel?.appendLine(`[error] ${message}`);
-    window.showErrorMessage(`GDShader LSP: ${message}`);
-  });
-
-  newClient.onExit((code, signal) => {
-    const signalInfo = signal ? ` (signal: ${signal})` : '';
-    outputChannel?.appendLine(
-      `[exit] Language server exited with code ${code}${signalInfo}.`
-    );
+  newClient.onDidChangeState((event) => {
+    if (event.newState === State.Stopped) {
+      outputChannel?.appendLine('[exit] Language server stopped.');
+    }
   });
 
   client = newClient;
@@ -174,7 +182,7 @@ function resolveExecutable(context: ExtensionContext): string | undefined {
 }
 
 export async function activate(context: ExtensionContext): Promise<void> {
-  outputChannel = window.createOutputChannel(OUTPUT_CHANNEL_NAME);
+  outputChannel = window.createOutputChannel(OUTPUT_CHANNEL_NAME, { log: true });
   context.subscriptions.push(outputChannel);
 
   const startWithResolvedExecutable = async () => {
