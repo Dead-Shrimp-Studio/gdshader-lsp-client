@@ -1,0 +1,45 @@
+name: Build Extension
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build & Test (Node 22)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js 22
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Type-check, lint, and bundle
+        run: npm run compile
+
+      # Downloads VS Code (via @vscode/test-electron) and runs the
+      # integration test suite inside a headless VS Code instance.
+      - name: Run tests
+        run: npx vscode-test
+
+      - name: Package VSIX
+        run: npx --yes @vscode/vsce package --skip-license
+
+      - name: Upload VSIX artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: gdshader-lsp-client-${{ github.sha }}
+          path: '*.vsix'
+          if-no-files-found: error
+          retention-days: 14
