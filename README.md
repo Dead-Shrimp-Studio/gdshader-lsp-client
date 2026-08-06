@@ -14,6 +14,14 @@ This extension integrates the [`gdshader-lsp`](https://github.com/scump1/gdshade
 
 ---
 
+## Godot Compatibility
+
+| Extension Version | Supported Godot Versions |
+| :---------------- | :----------------------- |
+| `1.0.0`           | Godot 4.5 – 4.6          |
+
+---
+
 ## Supported Platforms
 
 The extension includes bundled binaries for the following targets:

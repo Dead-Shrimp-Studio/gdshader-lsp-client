@@ -8,6 +8,13 @@
     "type": "git",
     "url": "https://github.com/scump1/gdshader-lsp-client.git"
   },
+  "keywords": [
+    "godot",
+    "godot4",
+    "gdshader",
+    "shader",
+    "lsp"
+  ],
   "engines": {
     "vscode": "^1.90.0"
   },
