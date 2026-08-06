@@ -15,14 +15,14 @@
   ],
   "activationEvents": [
     "onLanguage:gdshader",
-    "onLanguage:gdshaderinc"
+    "onStartupFinished"
   ],
   "main": "./dist/extension.js",
   "contributes": {
     "languages": [
       {
         "id": "gdshader",
-        "aliases": ["GDShader, gdshader, gdshaderinc"],
+        "aliases": ["GDShader", "gdshader"],
         "extensions": [".gdshader", ".gdshaderinc"]
       }
     ],
