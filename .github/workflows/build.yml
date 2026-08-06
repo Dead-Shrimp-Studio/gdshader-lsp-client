@@ -2,9 +2,14 @@ name: Build Extension
 
 on:
   push:
-    branches: [main]
+    branches: [master]
   pull_request:
   workflow_dispatch:
+
+# Automatically cancel redundant builds on the same branch/PR
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: ${{ github.ref != 'refs/heads/master' }}
 
 jobs:
   build:
@@ -28,10 +33,9 @@ jobs:
       - name: Type-check, lint, and bundle
         run: npm run compile
 
-      # Downloads VS Code (via @vscode/test-electron) and runs the
-      # integration test suite inside a headless VS Code instance.
+      # Run tests inside a virtual display frame on Linux
       - name: Run tests
-        run: npx vscode-test
+        run: xvfb-run npx vscode-test
 
       - name: Package VSIX
         run: npx --yes @vscode/vsce package --skip-license
