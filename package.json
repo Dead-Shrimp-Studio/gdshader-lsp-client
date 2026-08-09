@@ -22,6 +22,9 @@
     "Programming Languages"
   ],
   "main": "./dist/extension.js",
+  "activationEvents": [
+    "onStartupFinished"
+  ],
   "contributes": {
     "languages": [
       {
