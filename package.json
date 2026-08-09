@@ -3,7 +3,7 @@
   "displayName": "GDShader LSP Client",
   "publisher": "5cump1",
   "description": "GDShader Language Server support for VS Code",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/scump1/gdshader-lsp-client.git"
