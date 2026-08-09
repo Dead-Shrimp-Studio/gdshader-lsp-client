@@ -4,6 +4,14 @@ All notable changes to the "gdshader-lsp-client" extension will be documented in
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
-## [Unreleased]
+## [1.0.3]
 
-- Initial release
+### Added 
+- Icon!
+
+### Fixed
+- several small bugs regarding lifecycle and instantation of the underlying binary
+
+## [1.0.2]
+
+Initial release. Welcome to the best gdshader language extension!
