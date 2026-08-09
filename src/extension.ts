@@ -167,7 +167,9 @@ function resolveExecutable(context: ExtensionContext): string | undefined {
       `Using configured binary at "${configured}".`
     );
 
-    if (!fs.existsSync(configured!)) {
+    // Only validate via fs.existsSync if the path is explicitly an absolute path.
+    // If it's a command name (e.g. "gdshader_lsp"), let Node/child_process resolve it via system PATH.
+    if (path.isAbsolute(configured!) && !fs.existsSync(configured!)) {
       const message =
         `Configured binary "${configured}" does not exist. ` +
         `Please update "${CONFIG_SECTION}.path" in settings.`;
