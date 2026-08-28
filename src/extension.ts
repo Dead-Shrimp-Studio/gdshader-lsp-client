@@ -73,7 +73,7 @@ async function startClient(executablePath: string): Promise<void> {
 
   const run: Executable = {
     command: executablePath,
-    args: ['--stdio']
+    args: ['--stdio', '--log_path=off']
   };
 
   const serverOptions: ServerOptions = {
