@@ -39,6 +39,7 @@ This extension contributes the following setting to your VS Code configuration:
 | Setting | Type | Default | Description |
 | :--- | :--- | :--- | :--- |
 | `gdshaderLsp.path` | `string` | `"gdshader_lsp"` *(uses bundled binary)* | Absolute path to a custom `gdshader-lsp` executable. Leave empty or set to `"gdshader_lsp"` to use the bundled version. |
+| `gdshaderLsp.fileLogging` | `string` | `"off"` | Output directory for file logging. Passed to the server as `--log-path`. Leave empty or set to `"off"` to disable file logging. |
 
 ### Example Configuration (`settings.json`)
 
@@ -46,7 +47,8 @@ If you want to use a custom binary instead of the bundled one, add this to your 
 
 ```json
 {
-  "gdshaderLsp.path": "/usr/local/bin/gdshader-lsp"
+  "gdshaderLsp.path": "/usr/local/bin/gdshader-lsp",
+  "gdshaderLsp.fileLogging": "/tmp/gdshader-lsp-logs"
 }
 ```
 

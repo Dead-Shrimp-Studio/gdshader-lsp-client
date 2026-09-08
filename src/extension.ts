@@ -64,6 +64,20 @@ export function isBundledDefault(command: string | undefined): boolean {
 }
 
 /**
+ * Build the command-line arguments for the gdshader-lsp binary.
+ * Adds `--log-path <path>` only when file logging is enabled.
+ */
+export function buildServerArgs(fileLogPath: string | undefined): string[] {
+  const args: string[] = ['--stdio'];
+
+  if (fileLogPath && fileLogPath.trim() !== '') {
+    args.push('--log-path', fileLogPath);
+  }
+
+  return args;
+}
+
+/**
  * Build and start a LanguageClient for the given executable path.
  */
 async function startClient(executablePath: string): Promise<void> {
@@ -71,9 +85,13 @@ async function startClient(executablePath: string): Promise<void> {
     await stopClient();
   }
 
+  const fileLogPath = workspace
+    .getConfiguration(CONFIG_SECTION)
+    .get<string>('fileLogging');
+
   const run: Executable = {
     command: executablePath,
-    args: ['--stdio', '--log_path=off']
+    args: buildServerArgs(fileLogPath)
   };
 
   const serverOptions: ServerOptions = {

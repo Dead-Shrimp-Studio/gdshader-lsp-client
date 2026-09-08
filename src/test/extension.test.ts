@@ -4,7 +4,8 @@ import * as fs from 'fs';
 import * as vscode from 'vscode';
 import {
   resolveBinaryPath,
-  isBundledDefault
+  isBundledDefault,
+  buildServerArgs
 } from '../extension';
 
 const EXTENSION_ROOT = path.join(__dirname, '..', '..');
@@ -79,6 +80,36 @@ suite('Extension Test Suite', () => {
 
     test('returns false for a custom path', () => {
       assert.strictEqual(isBundledDefault('/usr/local/bin/gdshader-lsp'), false);
+    });
+  });
+
+  suite('buildServerArgs', () => {
+    test('adds --stdio when file logging is undefined', () => {
+      assert.deepStrictEqual(buildServerArgs(undefined), ['--stdio']);
+    });
+
+    test('adds --stdio when file logging is empty', () => {
+      assert.deepStrictEqual(buildServerArgs(''), ['--stdio']);
+    });
+
+    test('adds --stdio when file logging is whitespace', () => {
+      assert.deepStrictEqual(buildServerArgs('   '), ['--stdio']);
+    });
+
+    test('adds --log-path for a configured outDir', () => {
+      assert.deepStrictEqual(buildServerArgs('/tmp/gdshader-logs'), [
+        '--stdio',
+        '--log-path',
+        '/tmp/gdshader-logs'
+      ]);
+    });
+
+    test('adds --log-path for the off sentinel', () => {
+      assert.deepStrictEqual(buildServerArgs('off'), [
+        '--stdio',
+        '--log-path',
+        'off'
+      ]);
     });
   });
 });
